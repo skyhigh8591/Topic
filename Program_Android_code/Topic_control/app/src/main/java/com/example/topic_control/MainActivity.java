@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonGet;
     private Context context;
     private String message;
+    private Button buttonSet;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +33,56 @@ public class MainActivity extends AppCompatActivity {
                 showDialog_1();
             }
         });
+
+        buttonSet=(Button)findViewById(R.id.button_set);
+        buttonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                message="你是否選擇入庫";
+                showDialog_2();
+            }
+        });
+    }
+
+    private void showDialog_2() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("選擇動作");
+        builder.setMessage(message);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                intent = new Intent(context,set_InformationActivity.class);
+
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
+
     }
 
     private void showDialog_1() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("選擇動作");
         builder.setMessage(message);
-        builder.setPositiveButton("NO", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                intent = new Intent(context,get_InformationActivity.class);
+                startActivity(intent);
                 dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton("YES", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
