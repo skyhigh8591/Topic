@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 intent = new Intent(context,set_InformationActivity.class);
-
                 startActivity(intent);
                 dialog.dismiss();
             }
