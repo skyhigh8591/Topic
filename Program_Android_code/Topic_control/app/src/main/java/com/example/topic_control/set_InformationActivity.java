@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -84,6 +86,38 @@ public class set_InformationActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, Menu.FIRST , Menu.NONE, "返回選擇頁面");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case Menu.FIRST :
+                new AlertDialog.Builder(context)
+                        .setTitle("離開此頁面")
+                        .setMessage("你確定要離開？")
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
