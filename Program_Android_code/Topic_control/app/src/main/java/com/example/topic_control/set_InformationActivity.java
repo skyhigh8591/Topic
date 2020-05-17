@@ -41,6 +41,8 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextField = (EditText) findViewById(R.id.editText_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_remarks);
 
+
+
         listInputText = (ListView) findViewById(R.id.listInputText);
         items = new ArrayList<>();
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
