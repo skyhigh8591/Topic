@@ -34,12 +34,12 @@ public class set_InformationActivity extends AppCompatActivity {
         setTitle("set_Information");
 
         context = this;
-        editTextRFID = (EditText) findViewById(R.id.editText_RFID);
-        editTextName = (EditText) findViewById(R.id.editText_name);
-        editTextSpecification = (EditText) findViewById(R.id.editText_specification);
-        editTextNumber = (EditText) findViewById(R.id.editText_number);
-        editTextField = (EditText) findViewById(R.id.editText_field);
-        editTextRemarks = (EditText) findViewById(R.id.editText_remarks);
+        editTextRFID = (EditText) findViewById(R.id.editText_set_RFID);
+        editTextName = (EditText) findViewById(R.id.editText_set_name);
+        editTextSpecification = (EditText) findViewById(R.id.editText_set_specification);
+        editTextNumber = (EditText) findViewById(R.id.editText_set_number);
+        editTextField = (EditText) findViewById(R.id.editText_set_field);
+        editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
 
 
 

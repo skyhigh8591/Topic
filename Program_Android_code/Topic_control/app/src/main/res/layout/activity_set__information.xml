@@ -27,7 +27,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_RFID"
+            android:id="@+id/editText_set_RFID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_name"
+            android:id="@+id/editText_set_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -90,7 +90,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_specification"
+            android:id="@+id/editText_set_specification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -121,7 +121,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_number"
+            android:id="@+id/editText_set_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -152,7 +152,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_field"
+            android:id="@+id/editText_set_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -173,7 +173,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_remarks">
+        app:layout_constraintTop_toBottomOf="@+id/editText_set_remarks">
 
         <ListView
             android:id="@+id/listInputText"
@@ -182,7 +182,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editText_remarks"
+        android:id="@+id/editText_set_remarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

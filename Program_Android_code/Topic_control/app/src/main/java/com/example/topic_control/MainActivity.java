@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
 
-        buttonGet = (Button) findViewById(R.id.button_get);
+        buttonGet = (Button) findViewById(R.id.button_change_get);
         buttonGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buttonSet=(Button)findViewById(R.id.button_set);
+        buttonSet=(Button)findViewById(R.id.button_change_set);
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
