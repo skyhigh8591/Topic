@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class set_InformationActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter adapter;
     private Context context;
+    private Button buttonSetClean,buttonSetSave;
 
 
     @Override
@@ -41,6 +43,27 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextField = (EditText) findViewById(R.id.editText_set_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
 
+        buttonSetClean=(Button)findViewById(R.id.button_set_clean);
+        buttonSetClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextName.setText("");
+                editTextSpecification.setText("");
+                editTextNumber.setText("");
+                editTextField.setText("");
+                editTextRemarks.setText("");
+            }
+        });
+
+        buttonSetSave=(Button)findViewById(R.id.button_set_save);
+
+
+        buttonSetSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         listInputText = (ListView) findViewById(R.id.listInputText);
