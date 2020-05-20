@@ -17,7 +17,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class set_InformationActivity extends AppCompatActivity {
 
@@ -27,6 +33,8 @@ public class set_InformationActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private Context context;
     private Button buttonSetClean,buttonSetSave;
+    private DatabaseReference myFireBase;
+    private String RFID,name,specification,number,field,remarks;
 
 
     @Override
@@ -42,6 +50,8 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextNumber = (EditText) findViewById(R.id.editText_set_number);
         editTextField = (EditText) findViewById(R.id.editText_set_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
+
+        myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
 
         buttonSetClean=(Button)findViewById(R.id.button_set_clean);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +71,44 @@ public class set_InformationActivity extends AppCompatActivity {
         buttonSetSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("上傳");
+                builder.setIcon(android.R.drawable.ic_input_add);
 
+                builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RFID = editTextRFID.getText().toString();
+                        name = editTextName.getText().toString();
+                        specification = editTextSpecification.getText().toString();
+                        number = editTextSpecification.getText().toString();
+                        field = editTextSpecification.getText().toString();
+
+
+                        Map<String, String> data = new HashMap<>();
+                        data.put("name",name);
+                        data.put("specification",specification);
+                        data.put("number",number);
+                        data.put("field",field);
+
+
+
+
+                        myFireBase.child("RFID").child(RFID).setValue(data);
+                        finish();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
             }
         });
 
