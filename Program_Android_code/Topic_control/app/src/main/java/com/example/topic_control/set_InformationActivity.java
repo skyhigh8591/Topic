@@ -10,14 +10,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,9 +30,10 @@ public class set_InformationActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter adapter;
     private Context context;
-    private Button buttonSetClean,buttonSetSave;
+    private Button buttonSetClean, buttonSetSave;
     private DatabaseReference myFireBase;
-    private String RFID,name,specification,number,field,remarks;
+    private String RFID, name, specification, number, field, remarks;
+    private TextView textViewInput;
 
 
     @Override
@@ -50,10 +49,11 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextNumber = (EditText) findViewById(R.id.editText_set_number);
         editTextField = (EditText) findViewById(R.id.editText_set_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
+        textViewInput = (TextView) findViewById(R.id.textView_set_input);
 
         myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
 
-        buttonSetClean=(Button)findViewById(R.id.button_set_clean);
+        buttonSetClean = (Button) findViewById(R.id.button_set_clean);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,10 +62,11 @@ public class set_InformationActivity extends AppCompatActivity {
                 editTextNumber.setText("");
                 editTextField.setText("");
                 editTextRemarks.setText("");
+                textViewInput.setText("");
             }
         });
 
-        buttonSetSave=(Button)findViewById(R.id.button_set_save);
+        buttonSetSave = (Button) findViewById(R.id.button_set_save);
 
 
         buttonSetSave.setOnClickListener(new View.OnClickListener() {
@@ -83,15 +84,15 @@ public class set_InformationActivity extends AppCompatActivity {
                         specification = editTextSpecification.getText().toString();
                         number = editTextSpecification.getText().toString();
                         field = editTextSpecification.getText().toString();
+                        remarks = textViewInput.getText().toString();
 
 
                         Map<String, String> data = new HashMap<>();
-                        data.put("name",name);
-                        data.put("specification",specification);
-                        data.put("number",number);
-                        data.put("field",field);
-
-
+                        data.put("name", name);
+                        data.put("specification", specification);
+                        data.put("number", number);
+                        data.put("field", field);
+                        data.put("remarks", remarks);
 
 
                         myFireBase.child("RFID").child(RFID).setValue(data);
@@ -113,46 +114,11 @@ public class set_InformationActivity extends AppCompatActivity {
         });
 
 
-        listInputText = (ListView) findViewById(R.id.listInputText);
-        items = new ArrayList<>();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
-        listInputText.setAdapter(adapter);
-
-        listInputText.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-                final int pos = position;
-                new AlertDialog.Builder(context)
-                        .setTitle("刪除備註")
-                        .setMessage("你確定要刪除？")
-                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                items.remove(pos);
-                                listInputText.setAdapter(adapter);
-                            }
-                        })
-                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
-
-                return false;
-            }
-
-        });
-
         editTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (!editTextRemarks.getText().toString().equals("")) {
-                    items.add(editTextRemarks.getText().toString());
-                    listInputText.setAdapter(adapter);
+                    textViewInput.append((editTextRemarks.getText().toString()) + "\n");
                     editTextRemarks.setText("");
                 }
                 return false;
@@ -162,14 +128,14 @@ public class set_InformationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, Menu.FIRST , Menu.NONE, "返回選擇頁面");
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "返回選擇頁面");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case Menu.FIRST :
+            case Menu.FIRST:
                 new AlertDialog.Builder(context)
                         .setTitle("離開此頁面")
                         .setMessage("你確定要離開？")
