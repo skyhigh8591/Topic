@@ -3,6 +3,7 @@ package com.example.topic_control;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 public class get_InformationActivity extends AppCompatActivity {
 
@@ -13,4 +14,17 @@ public class get_InformationActivity extends AppCompatActivity {
         setTitle("get_Information");
 
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.get_change_menu, menu);
+        return true;
+    }
+
+
+
+
+
+
+
 }
