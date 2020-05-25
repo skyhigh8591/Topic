@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".set_InformationActivity"></activity>
+        <activity android:name=".get_change_Activity"></activity>
+        <activity android:name=".set_InformationActivity" />
         <activity android:name=".get_InformationActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
