@@ -27,7 +27,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_set_RFID"
+            android:id="@+id/editText_get_change_RFID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_set_name"
+            android:id="@+id/editText_get_change_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -90,7 +90,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_set_specification"
+            android:id="@+id/editText_get_change_specification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -121,7 +121,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_set_number"
+            android:id="@+id/editText_get_change_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -152,7 +152,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_set_field"
+            android:id="@+id/editText_get_change_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -163,7 +163,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editText_set_remarks"
+        android:id="@+id/editText_get_change_remarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -177,7 +177,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
     <Button
-        android:id="@+id/button_set_save"
+        android:id="@+id/button_get_change_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="70dp"
@@ -187,7 +187,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button_set_clean"
+        android:id="@+id/button_get_change_clean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
@@ -203,10 +203,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_set_save"
+        app:layout_constraintBottom_toTopOf="@+id/button_get_change_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_set_remarks">
+        app:layout_constraintTop_toBottomOf="@+id/editText_get_change_remarks">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -214,7 +214,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_set_input"
+                android:id="@+id/textView_get_change_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="18sp" />
