@@ -43,17 +43,17 @@ public class set_InformationActivity extends AppCompatActivity {
         setTitle("set_Information");
 
         context = this;
-        editTextRFID = (EditText) findViewById(R.id.editText_get_change_RFID);
-        editTextName = (EditText) findViewById(R.id.editText_get_change_name);
-        editTextSpecification = (EditText) findViewById(R.id.editText_get_change_specification);
-        editTextNumber = (EditText) findViewById(R.id.editText_get_change_number);
-        editTextField = (EditText) findViewById(R.id.editText_get_change_field);
-        editTextRemarks = (EditText) findViewById(R.id.editText_get_change_remarks);
-        textViewInput = (TextView) findViewById(R.id.textView_get_change_input);
+        editTextRFID = (EditText) findViewById(R.id.editText_set_RFID);
+        editTextName = (EditText) findViewById(R.id.editText_set_name);
+        editTextSpecification = (EditText) findViewById(R.id.editText_set_specification);
+        editTextNumber = (EditText) findViewById(R.id.editText_set_number);
+        editTextField = (EditText) findViewById(R.id.editText_set_field);
+        editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
+        textViewInput = (TextView) findViewById(R.id.textView_set_comment);
 
         myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
 
-        buttonSetClean = (Button) findViewById(R.id.button_get_change_end);
+        buttonSetClean = (Button) findViewById(R.id.button_set_end);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +66,7 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
-        buttonSetSave = (Button) findViewById(R.id.button_get_change_save);
+        buttonSetSave = (Button) findViewById(R.id.button_set_save);
 
 
         buttonSetSave.setOnClickListener(new View.OnClickListener() {

@@ -17,7 +17,7 @@ public class get_InformationActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.get_change_menu, menu);
+        getMenuInflater().inflate(R.menu.get_menu, menu);
         return true;
     }
 
