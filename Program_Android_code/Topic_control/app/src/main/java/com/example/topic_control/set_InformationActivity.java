@@ -53,7 +53,7 @@ public class set_InformationActivity extends AppCompatActivity {
 
         myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
 
-        buttonSetClean = (Button) findViewById(R.id.button_get_change_clean);
+        buttonSetClean = (Button) findViewById(R.id.button_get_change_end);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
