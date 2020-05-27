@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Topic_control'
+rootProject.name='Topic_control_firebase'
