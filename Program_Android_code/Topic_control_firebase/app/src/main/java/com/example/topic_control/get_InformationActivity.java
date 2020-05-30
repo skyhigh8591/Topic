@@ -29,6 +29,7 @@ public class get_InformationActivity extends AppCompatActivity {
     private Context context;
     private SimpleAdapter adapter;
     private DatabaseReference myFireBase;
+    private HashMap<String, String> mapData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +49,54 @@ public class get_InformationActivity extends AppCompatActivity {
         adapter= new SimpleAdapter(context,
                 datalist,
                 R.layout.get_item_layout,
-                new String[]{"RFID","name","specification"},
-                new int[] {R.id.textView_get_RFID,R.id.textView_get_name,R.id.textView_get_specification});
+                new String[]{"RFID","name","specification","number"},
+                new int[] {R.id.textView_get_RFID,R.id.textView_get_name,R.id.textView_get_specification,R.id.textView_get_item_number});
 
         listViewGetStock.setAdapter(adapter);
 
-        myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
+        myFireBase = FirebaseDatabase.getInstance().getReference("Topic/RFID");
 
         myFireBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 datalist.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
                     Log.d("main","ds =  " + ds);
+                    mapData = new HashMap<String,String>();
+                    String rfidData = (String) ds.getKey();
+                    String rfidGet = rfidData.replace("_",".");
+                    Log.d("main","RFIDData =  " + rfidData);
+                    if (rfidData == null)
+                        mapData.put("RFID","NO RFID");
+                    else
+                        mapData.put("RFID",rfidGet);
 
+                    String nameData = (String) ds.child("name").getValue();
+                    Log.d("main","name =  " + nameData);
+                    if (nameData == null)
+                        mapData.put("name","no name");
+                    else
+                        mapData.put("name",nameData);
+
+                    String specificationData = (String) ds.child("specification").getValue();
+                    Log.d("main","specification =  " + nameData);
+                    if (specificationData == null)
+                        mapData.put("specification","no specification");
+                    else
+                        mapData.put("specification",specificationData);
+
+                    String numberData = (String) ds.child("number").getValue();
+                    Log.d("main","number =  " + numberData);
+                    if (numberData == null)
+                        mapData.put("number","no number");
+                    else
+                        mapData.put("number",numberData);
+
+
+                    datalist.add(mapData);
                 }
 
+                adapter.notifyDataSetChanged();
             }
 
             @Override

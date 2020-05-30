@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,20 +83,28 @@ public class set_InformationActivity extends AppCompatActivity {
                         RFID = editTextRFID.getText().toString();
                         name = editTextName.getText().toString();
                         specification = editTextSpecification.getText().toString();
-                        number = editTextSpecification.getText().toString();
-                        field = editTextSpecification.getText().toString();
+                        number = editTextNumber.getText().toString();
+                        field = editTextField.getText().toString();
                         remarks = textViewInput.getText().toString();
 
 
                         Map<String, String> data = new HashMap<>();
+
+                        String rfidPut = RFID.replace(".","_");
+                        Log.d("main","rfidPut =  " + rfidPut);
+                        Log.d("main","name =  " + name);
+                        Log.d("main","specification =  " + specification);
+                        Log.d("main","number =  " + number);
+                        Log.d("main","field =  " + field);
+                        Log.d("main","remarks =  " + remarks);
+
                         data.put("name", name);
                         data.put("specification", specification);
                         data.put("number", number);
                         data.put("field", field);
                         data.put("remarks", remarks);
 
-
-                        myFireBase.child("RFID").child(RFID).setValue(data);
+                        myFireBase.child("RFID").child(rfidPut).setValue(data);
                         finish();
                         dialog.dismiss();
                     }
