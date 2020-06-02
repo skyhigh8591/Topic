@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="查詢的RFID: "
+            android:text="查詢: "
             android:textSize="18sp" />
 
         <EditText
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="請輸入RFID"
+            android:hint="請輸入RFID 或 產品名稱"
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textSize="18sp" />
@@ -45,12 +45,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="查詢"
+        android:text="清除"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_get" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6_get" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -71,34 +71,34 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout_get"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6_get">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout_get"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout6_get">-->
 
-        <TextView
-            android:id="@+id/textView2_get"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="查詢的產品名稱: "
-            android:textSize="18sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView2_get"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0"-->
+<!--            android:text="查詢的產品名稱: "-->
+<!--            android:textSize="18sp" />-->
 
-        <EditText
-            android:id="@+id/editText_get_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="請輸入產品名稱"
-            android:inputType="textPersonName"
-            android:textAlignment="center" />
-    </LinearLayout>
+<!--        <EditText-->
+<!--            android:id="@+id/editText_get_name"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:ems="10"-->
+<!--            android:hint="請輸入產品名稱"-->
+<!--            android:inputType="textPersonName"-->
+<!--            android:textAlignment="center" />-->
+<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

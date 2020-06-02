@@ -1,15 +1,20 @@
 package com.example.topic_control;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -35,6 +40,9 @@ public class get_InformationActivity extends AppCompatActivity {
     private DatabaseReference myFireBase;
     private HashMap<String, String> mapData;
     private Runnable eChanged;
+    private Handler myhandler;
+    private Button buttonGetInquire;
+    private String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,39 +52,43 @@ public class get_InformationActivity extends AppCompatActivity {
 
         context = this;
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         editTextGetRDIF = (EditText) findViewById(R.id.editText_get_RDIF);
-        editTextGetName = (EditText) findViewById(R.id.editText_get_name);
+//        editTextGetName = (EditText) findViewById(R.id.editText_get_name);
 
         editTextGetRDIF.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+                get_InformationActivity.this.adapter.getFilter().filter(arg0);
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                String name = s.toString();
-                changeClient(name);
-
-            }
-
-            private void changeClient(String name) {
-
-
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
             }
         });
 
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        buttonGetInquire = (Button) findViewById(R.id.button_get_Inquire);
+        buttonGetInquire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextGetRDIF.setText("");
+            }
+        });
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         listViewGetStock = (ListView) findViewById(R.id.listView_get_stock);
         datalist = new ArrayList<Map<String, String>>();
         datalist.clear();
@@ -135,6 +147,7 @@ public class get_InformationActivity extends AppCompatActivity {
         });
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     }
 
 
@@ -144,10 +157,35 @@ public class get_InformationActivity extends AppCompatActivity {
         return true;
     }
 
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-    private class ShopClient {
+        switch (item.getItemId()) {
+            case R.id.get_new:
+                message = "你是否選擇出庫";
+
+                break;
+            case R.id.get_break:
+                new AlertDialog.Builder(context)
+                        .setTitle("離開此頁面")
+                        .setMessage("你確定要離開？")
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    private class DataSupport {
-    }
+
 }
