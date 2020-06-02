@@ -137,7 +137,7 @@ public class set_InformationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "返回選擇頁面");
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "上一頁");
         return super.onCreateOptionsMenu(menu);
     }
 

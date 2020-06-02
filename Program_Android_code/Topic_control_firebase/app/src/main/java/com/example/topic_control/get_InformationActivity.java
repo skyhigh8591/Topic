@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -43,6 +45,8 @@ public class get_InformationActivity extends AppCompatActivity {
     private Handler myhandler;
     private Button buttonGetInquire;
     private String message;
+    private Intent intent;
+    private String getRfidSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +151,23 @@ public class get_InformationActivity extends AppCompatActivity {
         });
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        listViewGetStock.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String,String> item = (Map<String, String>) parent.getItemAtPosition(position);
+                getRfidSend = item.get("RFID");
+                Log.d("main","getRfidSend =" +getRfidSend);
+                intent = new Intent(context,get_out_Activity.class);
+                intent.putExtra("RFID",getRfidSend);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
 
     }
 
@@ -161,7 +182,8 @@ public class get_InformationActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.get_new:
-                message = "你是否選擇出庫";
+                message = "是否要新增資料";
+                showDialog_2();
 
                 break;
             case R.id.get_break:
@@ -185,6 +207,30 @@ public class get_InformationActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialog_2() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        builder.setTitle("選擇動作");
+        builder.setMessage(message);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                intent = new Intent(context,set_InformationActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
+
     }
 
 
