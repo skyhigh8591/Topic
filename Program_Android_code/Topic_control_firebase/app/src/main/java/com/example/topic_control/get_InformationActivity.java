@@ -210,7 +210,7 @@ public class get_InformationActivity extends AppCompatActivity {
     }
 
     private void showDialog_2() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("選擇動作");
         builder.setMessage(message);
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
