@@ -230,7 +230,7 @@
             android:textAlignment="viewStart" />
 
         <Button
-            android:id="@+id/button_remarks_clear"
+            android:id="@+id/button_get_change_remarks_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

@@ -43,6 +43,7 @@ public class get_change_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_change_);
+        setTitle("GetChange");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -83,7 +84,7 @@ public class get_change_Activity extends AppCompatActivity {
         editTextGetChangeRFID.setText(test1);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        buttonRemarksClear = (Button) findViewById(R.id.button_remarks_clear);
+        buttonRemarksClear = (Button) findViewById(R.id.button_get_change_remarks_clear);
         buttonRemarksClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

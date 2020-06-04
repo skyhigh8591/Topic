@@ -35,13 +35,14 @@ public class set_InformationActivity extends AppCompatActivity {
     private DatabaseReference myFireBase;
     private String RFID, name, specification, number, field, remarks;
     private TextView textViewInput;
+    private Button buttonSetChangeRemarksClear;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set__information);
-        setTitle("set_Information");
+        setTitle("SetInformation");
 
         context = this;
         editTextRFID = (EditText) findViewById(R.id.editText_set_RFID);
@@ -60,7 +61,7 @@ public class set_InformationActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 new AlertDialog.Builder(context)
-                        .setTitle("清除資料")
+                        .setTitle("清除全部資料")
                         .setMessage("是否要清除")
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {
                             @Override
@@ -84,9 +85,31 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
+        buttonSetChangeRemarksClear=(Button)findViewById(R.id.button_set_change_remarks_clear);
+        buttonSetChangeRemarksClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setTitle("清除備註")
+                        .setMessage("是否要清除")
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                textViewInput.setText("");
+                            }
+                        })
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+            }
+        });
+
         buttonSetSave = (Button) findViewById(R.id.button_set_save);
-
-
         buttonSetSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

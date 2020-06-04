@@ -45,6 +45,7 @@ public class get_out_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_out_);
+        setTitle("GetOut");
 
         context = this;
         textViewGetOutComment = (TextView)findViewById(R.id.textView_get_out_comment);
