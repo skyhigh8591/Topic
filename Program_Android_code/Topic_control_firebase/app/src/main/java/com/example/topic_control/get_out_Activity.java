@@ -62,6 +62,10 @@ public class get_out_Activity extends AppCompatActivity {
         myFireBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                textViewGetOutComment.setText("");
+                RFID.replace("_", ".");
+                textViewGetOutComment.append("RFID = "+RFID+"\n");
+                RFID.replace(".", "_");
                 getOutName = (String) dataSnapshot.child("name").getValue();
                 textViewGetOutComment.append("產品名稱= "+ getOutName + "\n");
                 getOutSpecification = (String) dataSnapshot.child("specification").getValue();
@@ -75,6 +79,8 @@ public class get_out_Activity extends AppCompatActivity {
                 String test1 = dataSnapshot.child("number").getValue().toString();
                 getOutNumber_check=Integer.parseInt(test1);
                 Log.d("main","getOutNumber_check =" + getOutNumber_check);
+
+
             }
 
             @Override

@@ -58,12 +58,29 @@ public class set_InformationActivity extends AppCompatActivity {
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextName.setText("");
-                editTextSpecification.setText("");
-                editTextNumber.setText("");
-                editTextField.setText("");
-                editTextRemarks.setText("");
-                textViewInput.setText("");
+
+                new AlertDialog.Builder(context)
+                        .setTitle("清除資料")
+                        .setMessage("是否要清除")
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                editTextName.setText("");
+                                editTextSpecification.setText("");
+                                editTextNumber.setText("");
+                                editTextField.setText("");
+                                editTextRemarks.setText("");
+                                textViewInput.setText("");
+                            }
+                        })
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
             }
         });
 
@@ -75,7 +92,6 @@ public class set_InformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("上傳");
-                builder.setIcon(android.R.drawable.ic_input_add);
 
                 builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                     @Override
