@@ -42,7 +42,7 @@ public class set_InformationActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter adapter;
     private Context context;
-    private Button buttonSetClean, buttonSetSave, buttonRemarksClear;
+    private Button buttonSetClean, buttonSetSave;
     private String RFID, name, specification, num, field, remarks;
     private TextView textViewInput;
     //SQL參數--------------------
@@ -115,7 +115,6 @@ public class set_InformationActivity extends AppCompatActivity {
                         field = editTextField.getText().toString();
                         //remarks = editTextRemarks.getText().toString();
                         remarks = textViewInput.getText().toString();
-                        Log.d("main","remarks="+remarks);
 
 //                        Map<String, String> data = new HashMap<>();
 //                        data.put("name", name);
@@ -145,15 +144,6 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
-        buttonRemarksClear =(Button) findViewById(R.id.button_set_change_remarks_clear);
-        buttonRemarksClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewInput.setText("");
-            }
-        });
-
-
         editTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -170,7 +160,7 @@ public class set_InformationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "上一頁");
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "返回選擇頁面");
         return super.onCreateOptionsMenu(menu);
     }
 
