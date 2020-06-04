@@ -28,16 +28,16 @@ public class get_change_Activity extends AppCompatActivity {
 
     private Context context;
     private String RFID;
-    private EditText editTextGetChangeRFID,editTextGetChangeName,editTextGetChangeSpecification
-            ,editTextGetChangeNumber,editTextGetChangeField;
+    private EditText editTextGetChangeRFID, editTextGetChangeName, editTextGetChangeSpecification, editTextGetChangeNumber, editTextGetChangeField;
     private DatabaseReference myFireBase;
-    private String getChangeName,getChangeSpecification,getChangeNumber,getChangeField,getChangeComment;
+    private String getChangeName, getChangeSpecification, getChangeNumber, getChangeField, getChangeComment;
     private TextView textViewGetChangeComment;
     private Button buttonRemarksClear;
     private Button buttonGetChangeEnd;
     private EditText editTextGetChangeRemarks;
     private Button buttonGetChangeSave;
-    private String specification,name,number,field,remarks;
+    private String specification, name, number, field, remarks;
+    private String s1,s2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +49,17 @@ public class get_change_Activity extends AppCompatActivity {
         context = this;
         Intent intent = getIntent();
         RFID = intent.getStringExtra("RFID");
-        Log.d("main","RFID =" + RFID);
+        Log.d("main", "RFID =" + RFID);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        editTextGetChangeRFID = (EditText)findViewById(R.id.editText_get_change_RFID);
-        editTextGetChangeName = (EditText)findViewById(R.id.editText_get_change_name);
-        editTextGetChangeSpecification=(EditText)findViewById(R.id.editText_get_change_specification);
-        editTextGetChangeNumber = (EditText)findViewById(R.id.editText_get_change_number);
-        editTextGetChangeField = (EditText)findViewById(R.id.editText_get_change_field);
-        textViewGetChangeComment = (TextView)findViewById(R.id.textView_get_change_comment);
+        editTextGetChangeRFID = (EditText) findViewById(R.id.editText_get_change_RFID);
+        editTextGetChangeName = (EditText) findViewById(R.id.editText_get_change_name);
+        editTextGetChangeSpecification = (EditText) findViewById(R.id.editText_get_change_specification);
+        editTextGetChangeNumber = (EditText) findViewById(R.id.editText_get_change_number);
+        editTextGetChangeField = (EditText) findViewById(R.id.editText_get_change_field);
+        textViewGetChangeComment = (TextView) findViewById(R.id.textView_get_change_comment);
 
-        myFireBase = FirebaseDatabase.getInstance().getReference("Topic/RFID/"+RFID);
+        myFireBase = FirebaseDatabase.getInstance().getReference("Topic/RFID/" + RFID);
         myFireBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,11 +69,12 @@ public class get_change_Activity extends AppCompatActivity {
                 editTextGetChangeSpecification.setText(getChangeSpecification);
                 getChangeNumber = (String) dataSnapshot.child("number").getValue();
                 editTextGetChangeNumber.setText(getChangeNumber);
-                getChangeField= (String) dataSnapshot.child("field").getValue();
+                getChangeField = (String) dataSnapshot.child("field").getValue();
                 editTextGetChangeField.setText(getChangeField);
-                getChangeComment= (String) dataSnapshot.child("remarks").getValue();
+                getChangeComment = (String) dataSnapshot.child("remarks").getValue();
                 textViewGetChangeComment.setText(getChangeComment);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -82,7 +83,7 @@ public class get_change_Activity extends AppCompatActivity {
         editTextGetChangeRFID.setText(test1);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        buttonRemarksClear = (Button)findViewById(R.id.button_remarks_clear);
+        buttonRemarksClear = (Button) findViewById(R.id.button_remarks_clear);
         buttonRemarksClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +108,7 @@ public class get_change_Activity extends AppCompatActivity {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        buttonGetChangeEnd = (Button)findViewById(R.id.button_get_change_end);
+        buttonGetChangeEnd = (Button) findViewById(R.id.button_get_change_end);
         buttonGetChangeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +133,7 @@ public class get_change_Activity extends AppCompatActivity {
         });
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        editTextGetChangeRemarks = (EditText)findViewById(R.id.editText_get_change_remarks);
+        editTextGetChangeRemarks = (EditText) findViewById(R.id.editText_get_change_remarks);
 
         editTextGetChangeRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -147,7 +148,7 @@ public class get_change_Activity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        buttonGetChangeSave = (Button)findViewById(R.id.button_get_change_save);
+        buttonGetChangeSave = (Button) findViewById(R.id.button_get_change_save);
         buttonGetChangeSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +160,13 @@ public class get_change_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(RFID.toString()==editTextGetChangeRFID.getText().toString()) {
+                        RFID = RFID.replace("_", ".");
+                        Log.d("main", "RFID =" + RFID);
+                        Log.d("main", "editTextGetChangeRFID =" + editTextGetChangeRFID.getText().toString());
+                         s1 = RFID.toString();
+                         s2 = editTextGetChangeRFID.getText().toString();
+
+                        if (s1.equals(s2)) {
 
                             String test2 = RFID.replace(".", "_");
                             editTextGetChangeRFID.setText(test2);
@@ -173,13 +180,13 @@ public class get_change_Activity extends AppCompatActivity {
 
                             Map<String, String> data = new HashMap<>();
 
-                            String rfidPut = RFID.replace(".", "_");
                             Log.d("main", "RFID =  " + RFID);
                             Log.d("main", "name =  " + name);
                             Log.d("main", "specification =  " + specification);
                             Log.d("main", "number =  " + number);
                             Log.d("main", "field =  " + field);
                             Log.d("main", "remarks =  " + remarks);
+
 
                             data.put("name", name);
                             data.put("specification", specification);
@@ -191,7 +198,15 @@ public class get_change_Activity extends AppCompatActivity {
                             finish();
                             dialog.dismiss();
                         }else{
-
+                            new AlertDialog.Builder(context)
+                                    .setTitle("RFID 不相同")
+                                    .setPositiveButton("修正", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            editTextGetChangeRFID.setText(s1);
+                                        }
+                                    })
+                                    .show();
                         }
                     }
                 });
@@ -205,7 +220,6 @@ public class get_change_Activity extends AppCompatActivity {
 
                 builder.create().show();
             }
-
 
 
         });
