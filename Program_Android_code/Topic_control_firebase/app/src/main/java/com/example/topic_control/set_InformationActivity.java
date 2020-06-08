@@ -53,7 +53,6 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
         textViewInput = (TextView) findViewById(R.id.textView_set_comment);
 
-        myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
 
         buttonSetClean = (Button) findViewById(R.id.button_set_end);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
@@ -109,16 +108,17 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
+        myFireBase = FirebaseDatabase.getInstance().getReference("Topic");
         buttonSetSave = (Button) findViewById(R.id.button_set_save);
         buttonSetSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("上傳");
-
                 builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         RFID = editTextRFID.getText().toString();
                         name = editTextName.getText().toString();
                         specification = editTextSpecification.getText().toString();
@@ -126,10 +126,9 @@ public class set_InformationActivity extends AppCompatActivity {
                         field = editTextField.getText().toString();
                         remarks = textViewInput.getText().toString();
 
-
                         Map<String, String> data = new HashMap<>();
-
                         String rfidPut = RFID.replace(".","_");
+
                         Log.d("main","rfidPut =  " + rfidPut);
                         Log.d("main","name =  " + name);
                         Log.d("main","specification =  " + specification);

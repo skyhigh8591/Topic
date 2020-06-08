@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.topic_control">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".get_out_Activity"></activity>
+        <activity android:name=".Bt_App_Main_Activity"></activity>
+        <activity android:name=".bt_chat_service_Activity" />
+        <activity android:name=".get_out_Activity" />
         <activity android:name=".get_change_Activity" />
         <activity android:name=".set_InformationActivity" />
         <activity android:name=".get_InformationActivity" />
