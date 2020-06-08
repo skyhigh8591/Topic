@@ -1,13 +1,22 @@
 package com.example.topic_control;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -51,7 +60,7 @@ public class get_InformationActivity extends AppCompatActivity {
     private String remarksValue;
     private String timeValue;
     //---------------------------
-    private Button buttonGet;
+    private Button buttonGet ;
     private TextView editText_get_ALL;
 
     private String get_RFID, get_name, get_ALL; //取得的輸入
@@ -62,6 +71,8 @@ public class get_InformationActivity extends AppCompatActivity {
     private ArrayList<Map<String, String>> arraylist;
     private SimpleAdapter adapter;
     private HashMap<String, String> mapData;
+    private Intent intent;
+    private String getRfidSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +85,24 @@ public class get_InformationActivity extends AppCompatActivity {
         GlobalVariable G = new GlobalVariable();
         webAddress = G.getWeb();
 
-        editText_get_ALL = (TextView) findViewById(R.id.editText_get_ALL);
 
-        textViewTest = (TextView) findViewById(R.id.textView_test);
+        editText_get_ALL = (TextView) findViewById(R.id.editText_get_ALL);
+        editText_get_ALL.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                doSQL();
+            }
+        });
 
         listViewGetStock = (ListView)findViewById(R.id.listView_get_stock);
         arraylist = new ArrayList<Map<String, String>>();
@@ -89,32 +115,106 @@ public class get_InformationActivity extends AppCompatActivity {
         buttonGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                get_ALL = editText_get_ALL.getText().toString();
-
-                if(editText_get_ALL.getText().toString().matches("")){
-
-                    get_ALL = "";
-                }
-
-                Log.d("main","get_RFID =" + get_RFID);
-                Log.d("main","get_name =" + get_name);
-
-                arraylist.clear();
-                adapter.notifyDataSetChanged();
-
-                SetSQLData myGet2 = new SetSQLData();
-                myGet2.execute();
-
+                editText_get_ALL.setText("");
             }
         });
 
+        doSQL();//初始化
+
+
+        listViewGetStock.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String,String> item = (Map<String, String>) parent.getItemAtPosition(position);
+                getRfidSend = item.get("RFID");
+                Log.d("main","getRfidSend =" +getRfidSend);
+                intent = new Intent(context,get_out_Activity.class);
+                intent.putExtra("RFID",getRfidSend);
+                startActivity(intent);
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.get_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+
+
+            case R.id.get_newdata:
+                AlertDialog.Builder dialog2 = new AlertDialog.Builder(context);
+                dialog2.setTitle("選擇動作");
+                dialog2.setMessage("是否要新增資料？");
+                dialog2.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent = new Intent(context, set_InformationActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog2.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog2.show();
+
+                break;
+
+            case R.id.get_break:
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("離開此頁面");
+                dialog.setMessage("你確定要離開？");
+                dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void doSQL(){
+
+        get_ALL = editText_get_ALL.getText().toString();
+
+        if(editText_get_ALL.getText().toString().matches("")){
+
+            get_ALL = "";
+        }
+
+        Log.d("main","get_RFID =" + get_RFID);
+        Log.d("main","get_name =" + get_name);
+
+        arraylist.clear();
+        //adapter.notifyDataSetChanged();
+
+        SetSQLData myGet2 = new SetSQLData();
+        myGet2.execute();
     }
 
     private class SetSQLData extends AsyncTask<Void, Void, String> {
@@ -218,6 +318,7 @@ public class get_InformationActivity extends AppCompatActivity {
                         }
 
                     }
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `test_db` (
   `ID` int(11) NOT NULL,
-  `RFID` text NOT NULL,
+  `RFID` Bigint NOT NULL,
   `name` text NOT NULL,
   `specification` text NOT NULL,
   `num` int(11) NOT NULL,

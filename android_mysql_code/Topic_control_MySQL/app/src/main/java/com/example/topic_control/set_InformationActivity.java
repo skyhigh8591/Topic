@@ -42,14 +42,15 @@ public class set_InformationActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter adapter;
     private Context context;
-    private Button buttonSetClean, buttonSetSave;
+    private Button buttonSetClean, buttonSetSave, buttonRemarksClear;
     private String RFID, name, specification, num, field, remarks;
     private TextView textViewInput;
     //SQL參數--------------------
     private String webAddress;
     private String getDataURL = "GetData.php";
     private String newDataURL = "newData.php?";
-    private String updateURL = "updateData.php?";
+    private String update_numURL = "updateData_num.php?";
+    private String update_allURL = "updateData_all.php?";
     private StringBuilder myURL;
 
     private String RFID_e = "RFID=";
@@ -115,6 +116,7 @@ public class set_InformationActivity extends AppCompatActivity {
                         field = editTextField.getText().toString();
                         //remarks = editTextRemarks.getText().toString();
                         remarks = textViewInput.getText().toString();
+                        Log.d("main","remarks="+remarks);
 
 //                        Map<String, String> data = new HashMap<>();
 //                        data.put("name", name);
@@ -144,6 +146,15 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
+        buttonRemarksClear =(Button) findViewById(R.id.button_set_change_remarks_clear);
+        buttonRemarksClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewInput.setText("");
+            }
+        });
+
+
         editTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -160,7 +171,7 @@ public class set_InformationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "返回選擇頁面");
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "上一頁");
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -243,27 +254,27 @@ public class set_InformationActivity extends AppCompatActivity {
                         JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                         String rfid = jsonObj.getString("RFID");
-                        jsonData.append("RFID = " + rfid + ",");
+                        //jsonData.append("RFID = " + rfid + ",");
 
                         String nameValue = jsonObj.getString("name");
-                        jsonData.append("name = " + nameValue + ",");
+                        //jsonData.append("name = " + nameValue + ",");
 
                         String specificationValue = jsonObj.getString("specification");
-                        jsonData.append("specification= " + specificationValue + ",");
+                       // jsonData.append("specification= " + specificationValue + ",");
 
                         String numValue = jsonObj.getString("num");
-                        jsonData.append("num= " + numValue + ",");
+                       // jsonData.append("num= " + numValue + ",");
 
                         String fieldValue = jsonObj.getString("field");
-                        jsonData.append("field= " + fieldValue + ",");
+                        //jsonData.append("field= " + fieldValue + ",");
 
                         String remarksValue = jsonObj.getString("remarks");
-                        jsonData.append("remarks= " + remarksValue + ",");
+                        //jsonData.append("remarks= " + remarksValue + ",");
 
                         String time = jsonObj.getString("datetime");
-                        jsonData.append("created time = " + time + "\n");
+                        //jsonData.append("created time = " + time + "\n");
 
-                        jsonData.append("-----------------------------\n");
+                        //jsonData.append("-----------------------------\n");
 
                     }
 
