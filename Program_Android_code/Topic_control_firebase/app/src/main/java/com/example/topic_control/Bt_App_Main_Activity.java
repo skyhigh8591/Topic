@@ -1,6 +1,5 @@
-package com.example.bt_rfidapplication;
+package com.example.topic_control;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,21 +8,16 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
-public class MainActivity extends AppCompatActivity {
+public class Bt_App_Main_Activity extends AppCompatActivity {
 
     private static final int BT_REQUEST_CODE = 100;
     private Context context;
@@ -40,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bt__app__main_);
         context = this;
         setTitle("BT APP");
         mode = RFIDControl;
 
-        listView = (ListView)findViewById(R.id.listView_RFID);
+        listView = (ListView)findViewById(R.id.listView_bt_app_RFID);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(btAdapter==null){
@@ -78,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
                 itemData = parent.getItemAtPosition(position).toString();
 
-                    intent = new Intent(context, ReturnActivity.class);
-                    intent.putExtra("btdata", itemData);
-                    startActivity(intent);
+                intent = new Intent(context, ReturnActivity.class);
+                intent.putExtra("btdata", itemData);
+                startActivity(intent);
 
 
             }
