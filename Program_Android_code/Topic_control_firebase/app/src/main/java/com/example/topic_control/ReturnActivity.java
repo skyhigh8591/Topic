@@ -91,7 +91,7 @@ public class ReturnActivity extends AppCompatActivity {
                 case Constants.MESSAGE_READ:
                     byte[] data = (byte[]) msg.obj;
                     String dataString = new String(data, 0, msg.arg1);
-                    editTestData.append(dataString);
+                    editTestData.setText(dataString);
                     break;
 
                 case Constants.MESSAGE_DEVICE_NAME:
