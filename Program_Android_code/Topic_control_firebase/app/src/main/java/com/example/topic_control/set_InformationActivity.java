@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,6 +37,7 @@ public class set_InformationActivity extends AppCompatActivity {
     private String RFID, name, specification, number, field, remarks;
     private TextView textViewInput;
     private Button buttonSetChangeRemarksClear;
+    private Intent intent;
 
 
     @Override
@@ -53,7 +55,7 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
         textViewInput = (TextView) findViewById(R.id.textView_set_comment);
 
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         buttonSetClean = (Button) findViewById(R.id.button_set_end);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override

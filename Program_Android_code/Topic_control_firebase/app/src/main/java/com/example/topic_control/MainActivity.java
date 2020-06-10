@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                intent = new Intent(context,set_InformationActivity.class);
+                intent = new Intent(context,Bt_App_Main_Activity.class);
                 startActivity(intent);
                 dialog.dismiss();
             }
