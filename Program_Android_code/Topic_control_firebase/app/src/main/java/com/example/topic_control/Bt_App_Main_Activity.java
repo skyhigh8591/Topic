@@ -36,6 +36,8 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
     private final int RFIDControl=4;
     private static int mode;
     private String getSetActivity;
+    private String getOutCheckRFID;
+    private String getOutChangeNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,9 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
 
         Intent intentActivity = getIntent();
         getSetActivity = intentActivity.getStringExtra("activity");
+        getOutCheckRFID = intentActivity.getStringExtra("getOutCheckRFID");
+        getOutChangeNumber = intentActivity.getStringExtra("getOutChangeNumber");
+
         Log.d("main", "BTgetSetActivity =  " + getSetActivity);
 
         listView = (ListView)findViewById(R.id.listView_bt_app_RFID);
@@ -91,6 +96,8 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
                 intent = new Intent(context, ReturnActivity.class);
                 intent.putExtra("btdata", itemData);
                 intent.putExtra("BTactivity",getSetActivity);
+                intent.putExtra("getOutCheckRFID",getOutCheckRFID);
+                intent.putExtra("getOutChangeNumber",getOutChangeNumber);
                 startActivity(intent);
 
 
