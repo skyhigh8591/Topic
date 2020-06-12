@@ -35,6 +35,7 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
     private String itemData;
     private final int RFIDControl=4;
     private static int mode;
+    private String getSetActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,11 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
         context = this;
         setTitle("BT APP");
         mode = RFIDControl;
+
+
+        Intent intentActivity = getIntent();
+        getSetActivity = intentActivity.getStringExtra("activity");
+        Log.d("main", "BTgetSetActivity =  " + getSetActivity);
 
         listView = (ListView)findViewById(R.id.listView_bt_app_RFID);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -84,6 +90,7 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
 
                 intent = new Intent(context, ReturnActivity.class);
                 intent.putExtra("btdata", itemData);
+                intent.putExtra("BTactivity",getSetActivity);
                 startActivity(intent);
 
 

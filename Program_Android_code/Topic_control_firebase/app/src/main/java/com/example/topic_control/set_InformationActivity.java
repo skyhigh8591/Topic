@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.GLES10;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,6 +39,8 @@ public class set_InformationActivity extends AppCompatActivity {
     private TextView textViewInput;
     private Button buttonSetChangeRemarksClear;
     private Intent intent;
+    private String getBtRFID;
+    private Intent intentMain;
 
 
     @Override
@@ -45,6 +48,9 @@ public class set_InformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set__information);
         setTitle("SetInformation");
+
+        Intent intent = getIntent();
+        getBtRFID = intent.getStringExtra("RFID");
 
         context = this;
         editTextRFID = (EditText) findViewById(R.id.editText_set_RFID);
@@ -54,13 +60,13 @@ public class set_InformationActivity extends AppCompatActivity {
         editTextField = (EditText) findViewById(R.id.editText_set_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
         textViewInput = (TextView) findViewById(R.id.textView_set_comment);
+        editTextRFID.setText(getBtRFID);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         buttonSetClean = (Button) findViewById(R.id.button_set_end);
         buttonSetClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new AlertDialog.Builder(context)
                         .setTitle("清除全部資料")
                         .setMessage("是否要清除")
@@ -73,6 +79,7 @@ public class set_InformationActivity extends AppCompatActivity {
                                 editTextField.setText("");
                                 editTextRemarks.setText("");
                                 textViewInput.setText("");
+                                editTextRFID.setText(getBtRFID);
                             }
                         })
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -122,31 +129,47 @@ public class set_InformationActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         RFID = editTextRFID.getText().toString();
-                        name = editTextName.getText().toString();
-                        specification = editTextSpecification.getText().toString();
-                        number = editTextNumber.getText().toString();
-                        field = editTextField.getText().toString();
-                        remarks = textViewInput.getText().toString();
 
-                        Map<String, String> data = new HashMap<>();
-                        String rfidPut = RFID.replace(".","_");
+                        Log.d("main", "getBtRFID =" + getBtRFID);
+                        Log.d("main", "RFID =" + RFID);
+                        if(getBtRFID.equals(RFID)) {
+                            name = editTextName.getText().toString();
+                            specification = editTextSpecification.getText().toString();
+                            number = editTextNumber.getText().toString();
+                            field = editTextField.getText().toString();
+                            remarks = textViewInput.getText().toString();
 
-                        Log.d("main","rfidPut =  " + rfidPut);
-                        Log.d("main","name =  " + name);
-                        Log.d("main","specification =  " + specification);
-                        Log.d("main","number =  " + number);
-                        Log.d("main","field =  " + field);
-                        Log.d("main","remarks =  " + remarks);
+                            Map<String, String> data = new HashMap<>();
+                           String rfidPut = RFID.replace(".", "_");
 
-                        data.put("name", name);
-                        data.put("specification", specification);
-                        data.put("number", number);
-                        data.put("field", field);
-                        data.put("remarks", remarks);
+                            Log.d("main", "rfidPut =  " + rfidPut);
+                            Log.d("main", "name =  " + name);
+                            Log.d("main", "specification =  " + specification);
+                            Log.d("main", "number =  " + number);
+                            Log.d("main", "field =  " + field);
+                            Log.d("main", "remarks =  " + remarks);
 
-                        myFireBase.child("RFID").child(rfidPut).setValue(data);
-                        finish();
-                        dialog.dismiss();
+                            data.put("name", name);
+                            data.put("specification", specification);
+                            data.put("number", number);
+                            data.put("field", field);
+                            data.put("remarks", remarks);
+
+                            myFireBase.child("RFID").child(rfidPut).setValue(data);
+                            intentMain = new Intent(context, MainActivity.class);
+                            startActivity(intentMain);
+                            dialog.dismiss();
+                        }else {
+                            new AlertDialog.Builder(context)
+                                    .setTitle("RFID 不相同")
+                                    .setPositiveButton("修正", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            editTextRFID.setText(getBtRFID);
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 });
 
@@ -192,7 +215,8 @@ public class set_InformationActivity extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                                intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {

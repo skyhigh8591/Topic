@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,10 @@ public class ReturnActivity extends AppCompatActivity {
     private Button buttonLink;
     private TextView textViewBT;
     private EditText editTestData;
-
+    private Intent intent;
+    private String getBtRFID;
+    private String getSetActivity;
+    private Class<set_InformationActivity> s1;
 
 
     @SuppressLint("WrongViewCast")
@@ -44,6 +48,7 @@ public class ReturnActivity extends AppCompatActivity {
         context = this;
         Intent intent = getIntent();
         btData = intent.getStringExtra("btdata");
+        getSetActivity = intent.getStringExtra("BTactivity");
 
         textViewBT = (TextView) findViewById(R.id.textView_RFIDBT);
         textViewBT.setText(btData);
@@ -92,6 +97,25 @@ public class ReturnActivity extends AppCompatActivity {
                     byte[] data = (byte[]) msg.obj;
                     String dataString = new String(data, 0, msg.arg1);
                     editTestData.setText(dataString);
+                    getBtRFID = editTestData.getText().toString();
+                    getBtRFID = getBtRFID.replace(" ","");
+                    if(getBtRFID.length()>0){
+                        Log.d("main", "getSetActivity =  " + getSetActivity);
+                        if(getSetActivity.equals("set")) {
+                            s1 = set_InformationActivity.class;
+                            intent = new Intent(context, s1);
+                            intent.putExtra("RFID", editTestData.getText().toString());
+                            startActivity(intent);
+                            break;
+                        }
+                        if(getSetActivity.equals("get")) {
+                            intent = new Intent(context, get_out_Activity.class);
+                            intent.putExtra("RFID", editTestData.getText().toString());
+                            startActivity(intent);
+                            break;
+                        }
+                    }
+
                     break;
 
                 case Constants.MESSAGE_DEVICE_NAME:
