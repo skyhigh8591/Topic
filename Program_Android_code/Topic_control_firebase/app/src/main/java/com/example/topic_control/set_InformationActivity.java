@@ -200,7 +200,7 @@ public class set_InformationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "上一頁");
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "返回主選單");
         return super.onCreateOptionsMenu(menu);
     }
 
