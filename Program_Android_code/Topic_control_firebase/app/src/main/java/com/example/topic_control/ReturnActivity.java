@@ -50,7 +50,7 @@ public class ReturnActivity extends AppCompatActivity {
     private String getOutCheckRFID;
     private String getOutChangeNumber;
     private DatabaseReference myFireBase;
-    private int n ;
+    private int n;
     private int setnumber;
 
 
@@ -110,7 +110,6 @@ public class ReturnActivity extends AppCompatActivity {
 
         @Override
         public void handleMessage(Message msg) {
-
             switch (msg.what) {
                 case Constants.MESSAGE_READ:
                     byte[] data = (byte[]) msg.obj;
@@ -125,7 +124,7 @@ public class ReturnActivity extends AppCompatActivity {
                             myFireBase.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                         setnumber = setnumber + 1;
                                     }
                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -134,8 +133,8 @@ public class ReturnActivity extends AppCompatActivity {
                                         Log.d(TAG, "ds.getKey = " + EP);
                                         Log.d(TAG, " setnumber " + setnumber);
                                         n = n + 1;
-                                        if (getBtRFID.equals(EP)){
-                                            n=n-1;
+                                        if (getBtRFID.equals(EP)) {
+                                            n = n - 1;
                                             Log.d(TAG, "mainnumber =  " + n);
                                             new AlertDialog.Builder(context)
                                                     .setTitle("RFID已存在")
@@ -143,6 +142,7 @@ public class ReturnActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             editTestData.setText("");
+
                                                         }
                                                     })
                                                     .setNegativeButton("取消領出", new DialogInterface.OnClickListener() {
@@ -153,7 +153,6 @@ public class ReturnActivity extends AppCompatActivity {
                                                         }
                                                     })
                                                     .show();
-
                                         } else if (n == setnumber) {
                                             intent = new Intent(context, set_InformationActivity.class);
                                             intent.putExtra("RFID", editTestData.getText().toString());
@@ -180,7 +179,6 @@ public class ReturnActivity extends AppCompatActivity {
                                 myFireBase.updateChildren(changeData);
                                 intent = new Intent(context, MainActivity.class);
                                 startActivity(intent);
-
                             } else {
                                 new AlertDialog.Builder(context)
                                         .setTitle("ERRO")
@@ -189,6 +187,7 @@ public class ReturnActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 editTestData.setText("");
+
                                             }
                                         })
                                         .setNegativeButton("取消領出", new DialogInterface.OnClickListener() {
@@ -202,19 +201,16 @@ public class ReturnActivity extends AppCompatActivity {
                             }
                         }
                     }
-
-
+                    break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     String btName = msg.getData().getString(Constants.DEVICE_NAME);
                     Toast.makeText(context, " 已連線 " + btName, Toast.LENGTH_SHORT).show();
                     break;
-
                 case Constants.MESSAGE_TOAST:
                     String errMsg = msg.getData().getString(Constants.TOAST);
                     Log.d(TAG, "errMsg = " + errMsg);
                     Toast.makeText(context, "設備連接丟失", Toast.LENGTH_SHORT).show();
                     break;
-
             }
         }
 
@@ -222,7 +218,6 @@ public class ReturnActivity extends AppCompatActivity {
 
     private void sendCMD(String message) {
         int btState = myChatService.getState();
-
         if (btState == BTChatService.STATE_CONNECTED) {
             if (message.length() > 0) {
                 byte[] data = message.getBytes();
@@ -230,7 +225,6 @@ public class ReturnActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     protected void onDestroy() {
