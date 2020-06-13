@@ -60,7 +60,7 @@ public class Bt_App_Main_Activity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(btAdapter==null){
-            Toast.makeText(context,"No BT hardware",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"附近無任何藍芽設備",Toast.LENGTH_SHORT).show();
             finish();
         }else if(!btAdapter.isEnabled()){
             intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
