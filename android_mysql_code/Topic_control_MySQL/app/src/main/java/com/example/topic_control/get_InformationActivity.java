@@ -41,6 +41,7 @@ public class get_InformationActivity extends AppCompatActivity {
     //SQL參數--------------------
     private String webAddress;
     private String getDataURL = "GetData.php";
+    private String getDataURL2 = "GetData2.php";
     private String newDataURL = "newData.php?";
     private String updateURL = "updateData.php?";
     private StringBuilder myURL;
@@ -207,11 +208,9 @@ public class get_InformationActivity extends AppCompatActivity {
             get_ALL = "";
         }
 
-        Log.d("main","get_RFID =" + get_RFID);
-        Log.d("main","get_name =" + get_name);
-
         arraylist.clear();
         //adapter.notifyDataSetChanged();
+
 
         SetSQLData myGet2 = new SetSQLData();
         myGet2.execute();
@@ -225,7 +224,8 @@ public class get_InformationActivity extends AppCompatActivity {
             myURL = new StringBuilder();
             myURL.append(webAddress);
 
-            myURL.append(getDataURL);
+            myURL.append(getDataURL2);
+            myURL.append("?search="+get_ALL);
 
             try {
                 URL url = new URL(myURL.toString());
@@ -274,48 +274,13 @@ public class get_InformationActivity extends AppCompatActivity {
                         fieldValue = jsonObj.getString("field");
                         remarksValue = jsonObj.getString("remarks");
 
-                        int getAll_Flag1 = rfid.compareTo(get_ALL);
-                        int getAll_Flag2 = nameValue.compareTo(get_ALL);
-                        int getAll_Flag3 = specificationValue.compareTo(get_ALL);
-                        int getAll_Flag4 = numValue.compareTo(get_ALL);
-                        int getAll_Flag5 = fieldValue.compareTo(get_ALL);
-                        int getAll_Flag6 = remarksValue.compareTo(get_ALL);
+                        mapData = new HashMap<String, String>();
+                        mapData.put("RFID", rfid);
+                        mapData.put("name", nameValue);
+                        mapData.put("specification", specificationValue);
+                        mapData.put("num", numValue);
 
-                        if(getAll_Flag1 ==0)  CheckFlag =1;
-                        if(getAll_Flag2 ==0)  CheckFlag =1;
-                        if(getAll_Flag3 ==0)  CheckFlag =1;
-                        if(getAll_Flag4 ==0)  CheckFlag =1;
-                        if(getAll_Flag5 ==0)  CheckFlag =1;
-                        if(getAll_Flag6 ==0)  CheckFlag =1;
-
-                        Log.d("main","CheckFlag:" +CheckFlag);
-                        Log.d("main","all:" + get_ALL.isEmpty());
-
-                        if(get_ALL.isEmpty()) {
-                            mapData = new HashMap<String, String>();
-                            mapData.put("RFID", rfid);
-                            mapData.put("name", nameValue);
-                            mapData.put("specification", specificationValue);
-                            mapData.put("num", numValue);
-
-                            arraylist.add(mapData);
-                        } else {
-                            if(CheckFlag == 1){
-                                mapData = new HashMap<String, String>();
-                                mapData.put("RFID", rfid);
-                                mapData.put("name", nameValue);
-                                mapData.put("specification", specificationValue);
-                                mapData.put("num", numValue);
-
-                                arraylist.add(mapData);
-                                Log.d("main",rfid + "成功加入:" + mapData);
-
-                                Log.d("main","成功加入:" + rfid);
-
-                                Log.d("main","arraylist :" + arraylist);
-                            }
-
-                        }
+                        arraylist.add(mapData);
 
                     }
                     adapter.notifyDataSetChanged();

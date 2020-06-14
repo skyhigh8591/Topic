@@ -63,6 +63,7 @@ public class get_change_Activity extends AppCompatActivity {
     private TextView textViewGetChangeComment;
     private Button buttonGetChangeEnd, buttonGetChangeSave, buttonGetChangeRemarksClear;
     private String ExtraRFID,ExtranameValue, ExtraspecificationValue, ExtrafieldValue, ExtranumValue, ExtraremarksValue;
+    private String saveRemarks="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +92,14 @@ public class get_change_Activity extends AppCompatActivity {
         ExtrafieldValue = intent.getStringExtra("field");
         ExtranumValue = intent.getStringExtra("num");
         ExtraremarksValue = intent.getStringExtra("remarks");
+        String remarksPut = ExtraremarksValue.replace("_","\n");
 
         editTextGetChangeRFID.setText(ExtraRFID);
         editTextGetChangeName.setText(ExtranameValue);
         editTextGetChangeSpecification.setText(ExtraspecificationValue);
         editTextGetChangeNumber.setText(ExtranumValue);
         editTextGetChangeField.setText(ExtrafieldValue);
-        textViewGetChangeComment.setText(ExtraremarksValue);
+        textViewGetChangeComment.setText(remarksPut);
 
         Log.d("main", "RFID = " + ExtraRFID);
 
@@ -134,6 +136,7 @@ public class get_change_Activity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (!editTextGetChangeRemarks.getText().toString().equals("")) {
                     textViewGetChangeComment.append((editTextGetChangeRemarks.getText().toString()) + "\n");
+                    saveRemarks = saveRemarks + editTextGetChangeRemarks.getText().toString() +"_";
                     editTextGetChangeRemarks.setText("");
                 }
                 return false;
@@ -155,15 +158,34 @@ public class get_change_Activity extends AppCompatActivity {
                         specification = editTextGetChangeSpecification.getText().toString();
                         num = editTextGetChangeNumber.getText().toString();
                         field = editTextGetChangeField.getText().toString();
-                        remarks = textViewGetChangeComment.getText().toString();
+                        //remarks = textViewGetChangeComment.getText().toString();
+                        remarks = saveRemarks;
                         Log.d("main","remaks = " + remarks);
+                        int Flag = RFID.compareTo(ExtraRFID);
+                        Log.d("main","Flag = " + Flag);
+                        Log.d("main","RFID = " + ExtraRFID);
+                        if(Flag != 0){
+                           AlertDialog.Builder dialog_RFID = new AlertDialog.Builder(context);
+                           dialog_RFID.setTitle("錯誤");
+                           dialog_RFID.setMessage("RFID錯誤");
+                           dialog_RFID.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   editTextGetChangeRFID.setText(ExtraRFID);
+                                   dialog.dismiss();
+                               }
+                           });
+                           dialog_RFID.create().show();
+                        } else {
+                            SetSQLData myChange = new SetSQLData();
+                            myChange.execute();
 
-                        SetSQLData myChange = new SetSQLData();
-                        myChange.execute();
-
-
-                        finish();
-                        dialog.dismiss();
+                            //finish();
+                            Intent intent = new Intent(context,get_out_Activity.class);
+                            intent.putExtra("RFID",RFID);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {

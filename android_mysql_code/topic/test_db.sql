@@ -21,16 +21,11 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `topic`
 --
-CREATE DATABASE IF NOT EXISTS `topic` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `topic`;
 
 -- --------------------------------------------------------
 
 --
 -- 資料表結構 `test_db`
---
--- 建立時間： 
--- 最後更新： 
 --
 
 DROP TABLE IF EXISTS `test_db`;
@@ -44,10 +39,6 @@ CREATE TABLE `test_db` (
   `remarks` text COLLATE utf8_unicode_ci NOT NULL,
   `datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- 資料表的關聯 `test_db`:
---
 
 --
 -- 傾印資料表的資料 `test_db`

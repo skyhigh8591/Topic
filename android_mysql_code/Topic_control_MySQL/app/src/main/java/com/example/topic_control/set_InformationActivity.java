@@ -45,6 +45,7 @@ public class set_InformationActivity extends AppCompatActivity {
     private Button buttonSetClean, buttonSetSave, buttonRemarksClear;
     private String RFID, name, specification, num, field, remarks;
     private TextView textViewInput;
+    private String saveRemarks="";
     //SQL參數--------------------
     private String webAddress;
     private String getDataURL = "GetData.php";
@@ -115,15 +116,9 @@ public class set_InformationActivity extends AppCompatActivity {
                         num = editTextNumber.getText().toString();
                         field = editTextField.getText().toString();
                         //remarks = editTextRemarks.getText().toString();
-                        remarks = textViewInput.getText().toString();
+                        //remarks = textViewInput.getText().toString();
+                        remarks = saveRemarks;
                         Log.d("main","remarks="+remarks);
-
-//                        Map<String, String> data = new HashMap<>();
-//                        data.put("name", name);
-//                        data.put("specification", specification);
-//                        data.put("number", num);
-//                        data.put("field", field);
-//                        data.put("remarks", remarks);
 
                         SetSQLData myGet = new SetSQLData();
                         myGet.execute();
@@ -160,6 +155,7 @@ public class set_InformationActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (!editTextRemarks.getText().toString().equals("")) {
                     textViewInput.append((editTextRemarks.getText().toString()) + "\n");
+                    saveRemarks = saveRemarks + editTextRemarks.getText().toString() +"_";
                     editTextRemarks.setText("");
                 }
                 return false;
@@ -254,28 +250,12 @@ public class set_InformationActivity extends AppCompatActivity {
                         JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                         String rfid = jsonObj.getString("RFID");
-                        //jsonData.append("RFID = " + rfid + ",");
-
                         String nameValue = jsonObj.getString("name");
-                        //jsonData.append("name = " + nameValue + ",");
-
                         String specificationValue = jsonObj.getString("specification");
-                       // jsonData.append("specification= " + specificationValue + ",");
-
                         String numValue = jsonObj.getString("num");
-                       // jsonData.append("num= " + numValue + ",");
-
                         String fieldValue = jsonObj.getString("field");
-                        //jsonData.append("field= " + fieldValue + ",");
-
                         String remarksValue = jsonObj.getString("remarks");
-                        //jsonData.append("remarks= " + remarksValue + ",");
-
                         String time = jsonObj.getString("datetime");
-                        //jsonData.append("created time = " + time + "\n");
-
-                        //jsonData.append("-----------------------------\n");
-
                     }
 
 

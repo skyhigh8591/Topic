@@ -255,13 +255,13 @@ public class get_out_Activity extends AppCompatActivity {
                 case 1:
 
                     myURL.append(getDataURL);
-                    Log.d("main", "myURL=" + myURL);
+                    Log.d("main", "myURL=" + myURL );
 
                     break;
 
                 case 2:
                     myURL.append(update_numURL);
-                    String parm = RFID_e + ExtraRFID + "&" + num_e + getOutValue;
+                    String parm = RFID_e + "\""+ ExtraRFID + "\"" + "&" + num_e + getOutValue;
                     myURL.append(parm);
 
                     break;
@@ -353,11 +353,12 @@ public class get_out_Activity extends AppCompatActivity {
                             ExtrafieldValue = fieldValue;
 
                             String remarksValue = jsonObj.getString("remarks");
-                            jsonData.append("備註事項 : " + remarksValue + "\n");
+                            String remarksPut = remarksValue.replace("_","\n");
+                            jsonData.append("備註事項 : " + remarksPut + "\n");
                             ExtraremarksValue = remarksValue;
 
                             String time = jsonObj.getString("datetime");
-                            jsonData.append("創建時間 : " + time + "\n");
+                            //jsonData.append("創建時間 : " + time + "\n");
                             Extratime = time;
 
                         }
