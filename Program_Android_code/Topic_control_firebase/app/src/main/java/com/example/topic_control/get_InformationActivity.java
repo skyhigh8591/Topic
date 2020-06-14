@@ -47,6 +47,7 @@ public class get_InformationActivity extends AppCompatActivity {
     private String message;
     private Intent intent;
     private String getRfidSend;
+    private String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +217,9 @@ public class get_InformationActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                intent = new Intent(context,set_InformationActivity.class);
+                intent = new Intent(context,Bt_App_Main_Activity.class);
+                activity = "set";
+                intent.putExtra("activity", activity);
                 startActivity(intent);
                 dialog.dismiss();
             }

@@ -38,8 +38,11 @@ public class get_out_Activity extends AppCompatActivity {
     private Button buttonGetOutYes;
     private EditText editTextGetOutNumber;
     private int editText_number_check;
-    private String RFID,rfidGet;
-    private String getOutName,getOutSpecification,getOutNumber,getOutField,getOutRemarks;
+    private String RFID, rfidGet;
+    private String getOutName, getOutSpecification, getOutNumber, getOutField, getOutRemarks;
+    private Intent BTintent;
+    private String toBTactivity;
+    private int getOutChangeNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,38 +51,36 @@ public class get_out_Activity extends AppCompatActivity {
         setTitle("GetOut");
 
         context = this;
-        textViewGetOutComment = (TextView)findViewById(R.id.textView_get_out_comment);
+        textViewGetOutComment = (TextView) findViewById(R.id.textView_get_out_comment);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Intent intent = getIntent();
-          RFID = intent.getStringExtra("RFID");
-        textViewGetOutComment.append("RFID = "+RFID+"\n");
+        final Intent intent = getIntent();
+        RFID = intent.getStringExtra("RFID");
+        textViewGetOutComment.append("RFID = " + RFID + "\n");
 
-        Log.d("main","RFID =" + RFID);
+        Log.d("main", "RFID =" + RFID);
         rfidGet = RFID.replace(".", "_");
 
-        myFireBase = FirebaseDatabase.getInstance().getReference("Topic/RFID/"+rfidGet);
+        myFireBase = FirebaseDatabase.getInstance().getReference("Topic/RFID/" + rfidGet);
         myFireBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 textViewGetOutComment.setText("");
-                RFID.replace("_", ".");
-                textViewGetOutComment.append("RFID = "+RFID+"\n");
-                RFID.replace(".", "_");
+                textViewGetOutComment.append("RFID = " + RFID + "\n");
                 getOutName = (String) dataSnapshot.child("name").getValue();
-                textViewGetOutComment.append("產品名稱= "+ getOutName + "\n");
+                textViewGetOutComment.append("產品名稱= " + getOutName + "\n");
                 getOutSpecification = (String) dataSnapshot.child("specification").getValue();
-                textViewGetOutComment.append("產品規格= "+getOutSpecification+ "\n");
+                textViewGetOutComment.append("產品規格= " + getOutSpecification + "\n");
                 getOutNumber = (String) dataSnapshot.child("number").getValue();
-                textViewGetOutComment.append("產品數量= "+ getOutNumber + "\n");
-                getOutField= (String) dataSnapshot.child("field").getValue();
-                textViewGetOutComment.append("儲存欄位= "+getOutField + "\n");
-                getOutRemarks= (String) dataSnapshot.child("remarks").getValue();
-                textViewGetOutComment.append("備註事項:\n"+getOutRemarks+ "\n");
+                textViewGetOutComment.append("產品數量= " + getOutNumber + "\n");
+                getOutField = (String) dataSnapshot.child("field").getValue();
+                textViewGetOutComment.append("儲存欄位= " + getOutField + "\n");
+                getOutRemarks = (String) dataSnapshot.child("remarks").getValue();
+                textViewGetOutComment.append("備註事項:\n" + getOutRemarks + "\n");
                 String test1 = dataSnapshot.child("number").getValue().toString();
-                getOutNumber_check=Integer.parseInt(test1);
-                Log.d("main","getOutNumber_check =" + getOutNumber_check);
+                getOutNumber_check = Integer.parseInt(test1);
+                Log.d("main", "getOutNumber_check =" + getOutNumber_check);
 
 
             }
@@ -90,7 +91,7 @@ public class get_out_Activity extends AppCompatActivity {
         });
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        buttonGetOutNo = (Button)findViewById(R.id.button_get_out_no);
+        buttonGetOutNo = (Button) findViewById(R.id.button_get_out_no);
 
         buttonGetOutNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,16 +117,15 @@ public class get_out_Activity extends AppCompatActivity {
         });
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        editTextGetOutNumber = (EditText)findViewById(R.id.editText_get_out_number);
+        editTextGetOutNumber = (EditText) findViewById(R.id.editText_get_out_number);
 
 
-
-        buttonGetOutYes = (Button)findViewById(R.id.button_get_out_yes);
+        buttonGetOutYes = (Button) findViewById(R.id.button_get_out_yes);
 
         buttonGetOutYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTextGetOutNumber.length()==0) {
+                if (editTextGetOutNumber.length() == 0) {
                     new AlertDialog.Builder(context)
                             .setTitle("ERRO")
                             .setMessage("領出數量不得空白")
@@ -136,28 +136,22 @@ public class get_out_Activity extends AppCompatActivity {
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     String test2 = editTextGetOutNumber.getText().toString();
                     editText_number_check = Integer.parseInt(test2);
-                    if(getOutNumber_check >= editText_number_check){
-                        ///////////////////////////////////////////////////////////////////////
+                    if (getOutNumber_check >= editText_number_check) {
 
-                        new AlertDialog.Builder(context)
-                                .setTitle("ERRO")
-                                .setMessage("RFID功能")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                })
-                                .show();
+                        getOutChangeNumber = getOutNumber_check-editText_number_check;
+                        String getOutChangeNumberkey =  Integer.toString(getOutChangeNumber);
+                        BTintent = new Intent(context, Bt_App_Main_Activity.class);
+                        toBTactivity = "get";
+                        BTintent.putExtra("activity", toBTactivity);
+                        BTintent.putExtra("getOutCheckRFID",RFID);
+                        BTintent.putExtra("getOutChangeNumber",getOutChangeNumberkey);
+                        startActivity(BTintent);
 
 
-                        //////////////////////////////////////////////////////////////////////
-
-
-                    }else {
+                    } else {
                         new AlertDialog.Builder(context)
                                 .setTitle("ERRO")
                                 .setMessage("數量不足")
@@ -183,6 +177,7 @@ public class get_out_Activity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.get_out_menu, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
@@ -194,6 +189,7 @@ public class get_out_Activity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void showDialog_2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("選擇動作");
@@ -201,8 +197,8 @@ public class get_out_Activity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                intent = new Intent(context,get_change_Activity.class);
-                intent.putExtra("RFID",rfidGet);
+                intent = new Intent(context, get_change_Activity.class);
+                intent.putExtra("RFID", rfidGet);
                 startActivity(intent);
                 dialog.dismiss();
             }

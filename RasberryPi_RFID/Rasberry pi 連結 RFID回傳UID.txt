@@ -1,21 +1,21 @@
 安裝bluetooth
 
 1.	更新樹莓派			      
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get -t stretch update
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get -t stretch update -y
 2.	安裝bluetooth 的相關套件
-sudo apt-get install bluetooth blueman bluez 
-sudo apt-get install -t stretch bluetooth blueman bluez 
+sudo apt-get install bluetooth blueman bluez -y
+sudo apt-get install -t stretch bluetooth blueman bluez -y
 3.	重新啟動樹莓派
 sudo reboot
 4.	安裝python的藍芽library. 有了這個library才能使用Python透過RFCOMM的方式傳輸&接收資料
-sudo apt-get install python-bluetooth
-sudo apt-get -t stretch install python-bluetooth
+sudo apt-get install python-bluetooth -y
+sudo apt-get -t stretch install python-bluetooth -y
 
 5.	建立樹莓派GPIO的libraty
-sudo apt-get install python-rpi.gpio
-sudo apt-get -t stretch install python-rpi.gpio
+sudo apt-get install python-rpi.gpio -y
+sudo apt-get -t stretch install python-rpi.gpio -y
 6.	修改 bluetooth 服務的啟動指令，加上相容模式的參數
 sudo nano /etc/systemd/system/dbus-org.bluez.service
   將下面這行
@@ -51,7 +51,7 @@ c.	Raspberry Pi 端: 畫面上會出現手機的名稱，選取後按下“Pair�
 d.	Raspberry Pi 端: 畫面上出現需至手機進行確認的提示訊息。
  
 e.	手機端: 確認 Raspberry Pi 的藍芽配對請求。
- 
+ 	
 f.	Raspberry Pi 端: 畫面上出現配對成功的提示訊息，按下 OK 關閉訊息。
  
 g.	Raspberry Pi 端: 確認 Raspberry Pi 已經完成與手機的配對。
@@ -122,7 +122,7 @@ def end_read(signal,frame):
     print "Ctrl+C captured, ending read."
     continue_reading = False
     GPIO.cleanup()
-
+py
 server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 
 port = 1
