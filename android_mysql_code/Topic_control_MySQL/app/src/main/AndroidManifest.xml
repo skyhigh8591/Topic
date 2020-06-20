@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.topic_control">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,6 +17,9 @@
         <activity android:name=".get_change_Activity" />
         <activity android:name=".set_InformationActivity" />
         <activity android:name=".get_InformationActivity" />
+        <activity android:name=".Bt_App_Main_Activity" />
+        <activity android:name=".BTChatService" />
+        <activity android:name=".ReturnActivity" />
         <activity android:name=".GlobalVariable" />
         <activity android:name=".MainActivity">
             <intent-filter>

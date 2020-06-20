@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonSet;
     private Intent intent;
 
-    public static final String webAddress = "http://192.168.1.110:8080/topic/";
+    public static final String webAddress = "http://192.168.43.62/topic/";
+    private String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 message="你是否選擇入庫";
+                activity = "set";
                 showDialog_2();
             }
         });
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                intent = new Intent(context,set_InformationActivity.class);
+                intent = new Intent(context,Bt_App_Main_Activity.class);
+                intent.putExtra("activity", activity);
                 startActivity(intent);
                 dialog.dismiss();
             }

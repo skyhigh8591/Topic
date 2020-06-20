@@ -45,7 +45,7 @@ public class set_InformationActivity extends AppCompatActivity {
     private Button buttonSetClean, buttonSetSave, buttonRemarksClear;
     private String RFID, name, specification, num, field, remarks;
     private TextView textViewInput;
-    private String saveRemarks="";
+    private String saveRemarks = "";
     //SQL參數--------------------
     private String webAddress;
     private String getDataURL = "GetData.php";
@@ -118,7 +118,7 @@ public class set_InformationActivity extends AppCompatActivity {
                         //remarks = editTextRemarks.getText().toString();
                         //remarks = textViewInput.getText().toString();
                         remarks = saveRemarks;
-                        Log.d("main","remarks="+remarks);
+                        Log.d("main", "remarks=" + remarks);
 
                         SetSQLData myGet = new SetSQLData();
                         myGet.execute();
@@ -141,7 +141,7 @@ public class set_InformationActivity extends AppCompatActivity {
             }
         });
 
-        buttonRemarksClear =(Button) findViewById(R.id.button_set_change_remarks_clear);
+        buttonRemarksClear = (Button) findViewById(R.id.button_set_change_remarks_clear);
         buttonRemarksClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +155,7 @@ public class set_InformationActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (!editTextRemarks.getText().toString().equals("")) {
                     textViewInput.append((editTextRemarks.getText().toString()) + "\n");
-                    saveRemarks = saveRemarks + editTextRemarks.getText().toString() +"_";
+                    saveRemarks = saveRemarks + editTextRemarks.getText().toString() + "_";
                     editTextRemarks.setText("");
                 }
                 return false;
@@ -241,28 +241,28 @@ public class set_InformationActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-                try {
-                    JSONArray jsonArray = new JSONArray(s); //JSONArray ->try catch
-                    StringBuffer jsonData = new StringBuffer();
+            try {
+                JSONArray jsonArray = new JSONArray(s); //JSONArray ->try catch
+                StringBuffer jsonData = new StringBuffer();
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                for (int i = 0; i < jsonArray.length(); i++) {
 
-                        JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                        String rfid = jsonObj.getString("RFID");
-                        String nameValue = jsonObj.getString("name");
-                        String specificationValue = jsonObj.getString("specification");
-                        String numValue = jsonObj.getString("num");
-                        String fieldValue = jsonObj.getString("field");
-                        String remarksValue = jsonObj.getString("remarks");
-                        String time = jsonObj.getString("datetime");
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    String rfid = jsonObj.getString("RFID");
+                    String nameValue = jsonObj.getString("name");
+                    String specificationValue = jsonObj.getString("specification");
+                    String numValue = jsonObj.getString("num");
+                    String fieldValue = jsonObj.getString("field");
+                    String remarksValue = jsonObj.getString("remarks");
+                    String time = jsonObj.getString("datetime");
                 }
 
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         }
     }
+}
