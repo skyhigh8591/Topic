@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonSet;
     private Intent intent;
 
-    public static final String webAddress = "http://192.168.43.62/topic/";
+    public static final String webAddress = "http://192.168.2.198/topic/";
     private String activity;
 
     @Override
