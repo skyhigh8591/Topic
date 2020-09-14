@@ -70,7 +70,8 @@ public class get_out_Activity extends AppCompatActivity {
     private int getOutFlag;
     private int getOutValue;
     private int chooseFlag;
-
+    private Intent BTintent;
+    private String toBTactivity;
 
 
     @Override
@@ -139,7 +140,7 @@ public class get_out_Activity extends AppCompatActivity {
                 } else {
                     String test2 = editTextGetOutNumber.getText().toString();
                     editText_number_check = Integer.parseInt(test2);
-                    Log.d("main", "editText_number_check = " + editText_number_check);
+                    Log.d("main", "getOutNumber_check = " + getOutNumber_check);
                     if (getOutNumber_check >= editText_number_check) {
 
                         ///////////////////////////////////////////////////////////////////////
@@ -150,18 +151,24 @@ public class get_out_Activity extends AppCompatActivity {
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        chooseFlag= 2;
-                                        getOutFlag = 1;
+
+
                                         getOutValue = getOutNumber_check - editText_number_check;
-                                        Log.d("main", "getOutValue = " + getOutValue);
+                                        String getOutChangeNumberkey =  Integer.toString(getOutValue);
+                                        BTintent = new Intent(context, Bt_App_Main_Activity.class);
+                                        toBTactivity = "get";
+                                        BTintent.putExtra("activity", toBTactivity);
+                                        BTintent.putExtra("chooseFlag", chooseFlag);
+                                        BTintent.putExtra("getOutFlag", getOutFlag);
+                                        BTintent.putExtra("getOutCheckRFID",ExtraRFID);
+                                        BTintent.putExtra("getOutChangeNumber",getOutChangeNumberkey);
+                                        startActivity(BTintent);
 
-                                        SetSQLData myOut = new SetSQLData();
-                                        myOut.execute();
-                                        getOutFlag = 0;
 
-                                        intent = new Intent(context,get_InformationActivity.class);
-                                        startActivity(intent);
-
+//                                        SetSQLData myOut = new SetSQLData();
+////                                        myOut.execute();
+////                                        getOutFlag = 0;
+////
                                     }
                                 })
                                 .show();
