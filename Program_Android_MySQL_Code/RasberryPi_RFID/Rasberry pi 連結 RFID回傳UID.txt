@@ -1,0 +1,191 @@
+安裝bluetooth
+
+1.	更新樹莓派			      
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get -t stretch update -y
+2.	安裝bluetooth 的相關套件
+sudo apt-get install bluetooth blueman bluez -y
+sudo apt-get install -t stretch bluetooth blueman bluez -y
+3.	重新啟動樹莓派
+sudo reboot
+4.	安裝python的藍芽library. 有了這個library才能使用Python透過RFCOMM的方式傳輸&接收資料
+sudo apt-get install python-bluetooth -y
+sudo apt-get -t stretch install python-bluetooth -y
+
+5.	建立樹莓派GPIO的libraty
+sudo apt-get install python-rpi.gpio -y
+sudo apt-get -t stretch install python-rpi.gpio -y
+6.	修改 bluetooth 服務的啟動指令，加上相容模式的參數
+sudo nano /etc/systemd/system/dbus-org.bluez.service
+  將下面這行
+...
+ExecStart=/usr/lib/bluetooth/bluetoothd
+...
+  
+   改成 (沒錯不要懷疑, 就是只有加 -C )
+...
+ExecStart=/usr/lib/bluetooth/bluetoothd -C
+...
+ 
+Note: Control + O存檔    Control + Z離開
+
+7.	重新載入服務的設定檔
+sudo systemctl daemon-reload
+8.	重新啟動 bluetooth 服務
+sudo systemctl restart bluetooth
+9.	確認 pybluez 套件已正確安裝
+pip list
+  應該可以看到類似訊息, 如有看到, Bluetooth 設定完成
+...
+PyBluez (0.18)
+...
+ 
+
+10.	藍芽配對
+a.	手機端開啟: “設定” -> “藍芽”。
+b.	Raspberry Pi 端: 藍芽 -> “Add Device” (新增設備)。
+ 
+c.	Raspberry Pi 端: 畫面上會出現手機的名稱，選取後按下“Pair” (配對)。
+ 
+d.	Raspberry Pi 端: 畫面上出現需至手機進行確認的提示訊息。
+ 
+e.	手機端: 確認 Raspberry Pi 的藍芽配對請求。
+ 	
+f.	Raspberry Pi 端: 畫面上出現配對成功的提示訊息，按下 OK 關閉訊息。
+ 
+g.	Raspberry Pi 端: 確認 Raspberry Pi 已經完成與手機的配對。
+ 
+
+
+RFID
+設定步驟
+進入 root 模式執行設定，並開啟 SPI：
+# raspi-config
+選項如下：7.Advanced Options -> A4 SPI -> Enable -> YES -> OK -> <Finish>
+
+重新開機後，設定config.txt：
+sudo nano /boot/config.txt
+
+找到以下這一行：
+dtparam=spi=on
+
+然後在他下方增加以下這一行：
+dtoverlay=spi-bcm2708
+
+重新開機，檢查 spi 模組是否已經安裝完成：
+# lsmod | grep spi
+
+如果出現以下這一列，表示 spi 安裝成功
+spi_bcm2835             6678  0
+
+安裝 python-dev
+sudo apt-get install python-dev
+
+取得SPI-py程式碼，SPI-py是 python 讀取硬體 SPI 的擴充函式庫：
+git clone https://github.com/lthiery/SPI-Py.git
+cd SPI-Py
+sudo python setup.py install
+cd
+
+安裝 MFRC522-python：
+git clone https://github.com/mxgxw/MFRC522-python.git
+
+
+
+
+
+建立程式
+首先進入 MFRC522-python這個資料夾
+cd MFRC522-python
+
+建立一個python檔案
+touch RFID_bluetooth.py
+
+打開檔案，輸入以下程式
+
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+import time
+import RPi.GPIO as GPIO
+import MFRC522
+import signal
+import bluetooth
+
+
+continue_reading = True
+
+# 當按下 Ctrl + C時結束程式
+def end_read(signal,frame):
+    global continue_reading
+    print "Ctrl+C captured, ending read."
+    continue_reading = False
+    GPIO.cleanup()
+py
+server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+
+port = 1
+server_sock.bind(("", port))
+server_sock.listen(1)
+sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+
+client_sock,address = server_sock.accept()
+print "Accepted connection from ",address,type(address)
+
+# Hook the SIGINT
+signal.signal(signal.SIGINT, end_read)
+
+# Create an object of the class MFRC522
+MIFAREReader = MFRC522.MFRC522()
+
+# Welcome message
+print "Welcome to the MFRC522 data read example"
+print "Press Ctrl-C to stop."
+
+# 迴圈檢查是否取得 UID 及授權
+while continue_reading:
+    
+    # Scan for cards    
+    (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+    # If a card is found
+    if status == MIFAREReader.MI_OK:
+        print "Card detected"
+    
+    # Get the UID of the card
+    (status,uid) = MIFAREReader.MFRC522_Anticoll()
+
+    # If we have the UID, continue
+    if status == MIFAREReader.MI_OK:
+        #returndata = str(str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+        
+        returndata=(str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])+"\n")
+        client_sock.send(returndata)
+        # Print UID
+        print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+        
+        # This is the default key for authentication
+        key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+        
+        # Select the scanned tag
+        MIFAREReader.MFRC522_SelectTag(uid)
+
+        # Authenticate
+        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+        
+        
+        # 檢查是否為授權卡片
+        if status == MIFAREReader.MI_OK:
+            MIFAREReader.MFRC522_Read(8)
+
+            MIFAREReader.MFRC522_StopCrypto1()
+            time.sleep(3)
+        else:
+            print "Authentication error"
+            time.sleep(3)
+            
+client_sock.close()
+server_sock.close()            
+
+
