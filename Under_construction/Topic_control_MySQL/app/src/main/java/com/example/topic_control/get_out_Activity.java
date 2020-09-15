@@ -158,17 +158,9 @@ public class get_out_Activity extends AppCompatActivity {
                                         BTintent = new Intent(context, Bt_App_Main_Activity.class);
                                         toBTactivity = "get";
                                         BTintent.putExtra("activity", toBTactivity);
-                                        BTintent.putExtra("chooseFlag", chooseFlag);
-                                        BTintent.putExtra("getOutFlag", getOutFlag);
                                         BTintent.putExtra("getOutCheckRFID",ExtraRFID);
                                         BTintent.putExtra("getOutChangeNumber",getOutChangeNumberkey);
                                         startActivity(BTintent);
-
-
-//                                        SetSQLData myOut = new SetSQLData();
-////                                        myOut.execute();
-////                                        getOutFlag = 0;
-////
                                     }
                                 })
                                 .show();

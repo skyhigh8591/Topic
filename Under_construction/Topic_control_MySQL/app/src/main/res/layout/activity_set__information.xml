@@ -26,8 +26,8 @@
             android:text="RFID :"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/editText_set_RFID"
+        <TextView
+            android:id="@+id/textView_set_RFID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,6 +35,7 @@
             android:hint="自動帶入"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            android:textAllCaps="false"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -46,6 +46,7 @@ public class ReturnActivity extends AppCompatActivity {
     //SQL參數--------------------
     private String webAddress;
     private String getDataURL = "GetData.php";
+    private String getDataURL2 = "GetData2.php";
     private String newDataURL = "newData.php?";
     private String update_numURL = "updateData_num.php?";
     private String update_allURL = "updateData_all.php?";
@@ -85,6 +86,11 @@ public class ReturnActivity extends AppCompatActivity {
     private DatabaseReference myFireBase;
     private int n;
     private int setnumber;
+    private int jsonDataLength = 0;
+    private String[] rfid ;
+    private int checkLong = 0;
+    private Intent reTurnInformation;
+    private boolean ZO = true;
 
 
     @SuppressLint("WrongViewCast")
@@ -92,6 +98,12 @@ public class ReturnActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return);
+
+        GlobalVariable G = new GlobalVariable();
+        webAddress = G.getWeb();
+
+        final SetSQLDataGetAll myGet = new SetSQLDataGetAll();
+        myGet.execute();
 
         setTitle("RFID Control");
 
@@ -152,17 +164,55 @@ public class ReturnActivity extends AppCompatActivity {
                     getBtRFID = getBtRFID.replace(" ", "");
                     if (getBtRFID.length() > 0) {
                         if (getSetActivity.equals("set")) {
+                            Log.d("main", "getBtRFID = " + getBtRFID);
+                            Log.d("main", "rfid2 = " + rfid[0]);
 
+                            for(int i = 0 ; i < jsonDataLength ; i++) {
+                                if (getBtRFID.equals(rfid[i])) {
+                                    Log.d("main", "getBtRFID2 = " + getBtRFID);
+                                    Log.d("main", "rfid2 = " + rfid[i]);
+                                    editTestData.setText("");
+                                    checkLong = 0;
+                                    if(ZO){
+                                        ZO = false;
+                                        new AlertDialog.Builder(context)
+                                                .setTitle("ERRO")
+                                                .setMessage("RFID已重複")
+                                                .setPositiveButton("重試", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        ZO = true;
+                                                    }
+                                                })
+                                                .setNegativeButton("取消領出", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        ZO = true;
+                                                        intent = new Intent(context, MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                }else{
+                                     checkLong = checkLong + 1;
+                                }
+                                Log.d("main", "checkLong = " + checkLong);
 
+                                if(jsonDataLength==checkLong){
+                                    reTurnInformation = new Intent(context, set_InformationActivity.class);
+                                    reTurnInformation.putExtra("RFID", getBtRFID);
+                                    startActivity(reTurnInformation);
+                                }
+                            }
                         }
                         if (getSetActivity.equals("get")) {
                             if (getBtRFID.equals(getOutCheckRFID)) {
 
+                                ExtraRFID = getBtRFID;
+
                                 chooseFlag= 2;
                                 getOutFlag = 1;
-                                getOutValue = getOutNumber_check - editText_number_check;
-                                Log.d("main", "getOutValue = " + getOutValue);
-
                                 SetSQLData myOut = new SetSQLData();
                                 myOut.execute();
                                 getOutFlag = 0;
@@ -244,7 +294,7 @@ public class ReturnActivity extends AppCompatActivity {
 
                 case 2:
                     myURL.append(update_numURL);
-                    String parm = RFID_e + "\""+ ExtraRFID + "\"" + "&" + num_e + getOutValue;
+                    String parm = RFID_e + "\""+ ExtraRFID + "\"" + "&" + num_e + getOutChangeNumber;
                     myURL.append(parm);
 
                     break;
@@ -355,6 +405,67 @@ public class ReturnActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+        }
+    }
+
+    private class SetSQLDataGetAll extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String data = null;
+            myURL = new StringBuilder();
+            myURL.append(webAddress);
+
+            myURL.append(getDataURL2);
+            myURL.append("?search=");
+
+            try {
+                URL url = new URL(myURL.toString());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                int code = conn.getResponseCode();
+
+                if(code == HttpURLConnection.HTTP_OK){
+                    InputStream inputStream = conn.getInputStream();
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+
+
+                    char[] buffer = new char[4096];
+                    int number = reader.read(buffer);
+                    data = String.valueOf(buffer);
+                    inputStream.close();
+                }
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s); //JSONArray ->try catch
+                StringBuffer jsonData = new StringBuffer();
+                jsonDataLength = jsonArray.length();
+                rfid = new String[jsonDataLength];
+
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    rfid[i] = jsonObj.getString("RFID");
+                    Log.d("main", "rfid " + i + "= " + rfid[i]);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,14 +38,14 @@ import java.util.Map;
 
 public class set_InformationActivity extends AppCompatActivity {
 
-    private EditText editTextRFID, editTextName, editTextSpecification, editTextNumber, editTextField, editTextRemarks;
+    private EditText editTextName, editTextSpecification, editTextNumber, editTextField, editTextRemarks;
     private ListView listInputText;
     private ArrayList<String> items;
     private ArrayAdapter adapter;
     private Context context;
     private Button buttonSetClean, buttonSetSave, buttonRemarksClear;
     private String RFID, name, specification, num, field, remarks;
-    private TextView textViewInput;
+    private TextView textViewInput,textViewRFID;
     private String saveRemarks = "";
     //SQL參數--------------------
     private String webAddress;
@@ -60,6 +61,8 @@ public class set_InformationActivity extends AppCompatActivity {
     private String num_e = "num=";
     private String field_e = "field=";
     private String remarks_e = "remarks=";
+    private String getRfid;
+    private Intent goToMain;
     //---------------------------
 
 
@@ -69,18 +72,25 @@ public class set_InformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set__information);
         setTitle("set_Information");
 
+
+        Intent getReturn = getIntent();
+        getRfid = getReturn.getStringExtra("RFID");
+
+
         context = this;
 
         GlobalVariable G = new GlobalVariable();
         webAddress = G.getWeb();
 
-        editTextRFID = (EditText) findViewById(R.id.editText_set_RFID);
+        textViewRFID = (TextView) findViewById(R.id.textView_set_RFID);
         editTextName = (EditText) findViewById(R.id.editText_set_name);
         editTextSpecification = (EditText) findViewById(R.id.editText_set_specification);
         editTextNumber = (EditText) findViewById(R.id.editText_set_number);
         editTextField = (EditText) findViewById(R.id.editText_set_field);
         editTextRemarks = (EditText) findViewById(R.id.editText_set_remarks);
         textViewInput = (TextView) findViewById(R.id.textView_set_comment);
+
+        textViewRFID.setText(getRfid);
 
 
         buttonSetClean = (Button) findViewById(R.id.button_set_end);
@@ -110,7 +120,7 @@ public class set_InformationActivity extends AppCompatActivity {
                 builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        RFID = editTextRFID.getText().toString();
+                        RFID = textViewRFID.getText().toString();
                         name = editTextName.getText().toString();
                         specification = editTextSpecification.getText().toString();
                         num = editTextNumber.getText().toString();
@@ -123,8 +133,8 @@ public class set_InformationActivity extends AppCompatActivity {
                         SetSQLData myGet = new SetSQLData();
                         myGet.execute();
 
-
-                        finish();
+                        goToMain = new Intent(context, MainActivity.class);
+                        startActivity(goToMain);
                         dialog.dismiss();
                     }
                 });
@@ -132,7 +142,6 @@ public class set_InformationActivity extends AppCompatActivity {
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         dialog.dismiss();
                     }
                 });
@@ -182,7 +191,8 @@ public class set_InformationActivity extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                                goToMain = new Intent(context, MainActivity.class);
+                                startActivity(goToMain);
                             }
                         })
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {
